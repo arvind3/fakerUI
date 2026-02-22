@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FakerUI Product — stop copy-pasting fake data. Generate realistic test datasets in seconds with 368 Faker methods, offline, no sign-up." />
+    <title>FakerUI — Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f8fafc; --ink: #0f172a; --muted: #64748b;
+        --brand: #00b899; --brand-dark: #009980; --brand-soft: #ccf5ee;
+        --accent: #f04f23; --surface: #ffffff; --line: #e2e8f0;
+        --header-bg: #0f172a;
+        --shadow-sm: 0 1px 3px rgba(15,23,42,0.08);
+        --shadow-md: 0 4px 16px rgba(15,23,42,0.10);
+        --radius: 14px; --radius-sm: 8px;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; }
+      body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+      a { color: inherit; text-decoration: none; }
+      h1,h2,h3,h4,p { margin: 0; }
+      code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.9em; background: var(--brand-soft); color: #065043; padding: 0.1em 0.35em; border-radius: 4px; }
+
+      .site-nav { background: var(--header-bg); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; gap: 1rem; height: 56px; }
+      .nav-brand { font-weight: 800; font-size: 1.1rem; color: var(--brand); flex-shrink: 0; letter-spacing: -0.02em; }
+      .nav-links { display: flex; gap: 0.25rem; margin-left: auto; }
+      .nav-links a { color: rgba(255,255,255,0.7); padding: 0.38rem 0.75rem; border-radius: 6px; font-size: 0.88rem; font-weight: 500; transition: color 120ms, background 120ms; }
+      .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.1); }
+      .nav-cta { background: var(--brand) !important; color: #fff !important; font-weight: 700 !important; }
+      .hamburger { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0.25rem; margin-left: auto; }
+      .mobile-menu { display: none; flex-direction: column; gap: 0.25rem; padding: 1rem 1.5rem; background: var(--header-bg); border-top: 1px solid rgba(255,255,255,0.08); }
+      .mobile-menu a { color: rgba(255,255,255,0.8); padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.95rem; }
+      .mobile-menu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+      .mobile-menu.open { display: flex; }
+
+      .hero { background: linear-gradient(135deg, #0f172a 0%, #1e2a1c 60%, #0f172a 100%); color: #fff; padding: 5rem 1.5rem 4rem; }
+      .hero-inner { max-width: 860px; }
+      .hero-eyebrow { display: inline-block; background: rgba(0,184,153,0.15); color: var(--brand); padding: 0.28rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1.25rem; border: 1px solid rgba(0,184,153,0.3); }
+      .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+      .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.72); max-width: 54ch; line-height: 1.65; margin-bottom: 2rem; }
+      .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+      .btn-primary { background: var(--brand); color: #fff; padding: 0.75rem 1.75rem; border-radius: 10px; font-weight: 700; font-size: 1rem; transition: background 120ms; }
+      .btn-primary:hover { background: var(--brand-dark); }
+      .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; padding: 0.75rem 1.75rem; border-radius: 10px; font-weight: 600; font-size: 1rem; border: 1px solid rgba(255,255,255,0.2); transition: background 120ms; }
+      .btn-secondary:hover { background: rgba(255,255,255,0.18); }
+
+      .page-body { max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem; display: grid; gap: 4rem; }
+
+      .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand); margin-bottom: 0.5rem; }
+      .section-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+      .section-body { color: var(--muted); font-size: 0.98rem; max-width: 60ch; line-height: 1.65; margin-bottom: 1.5rem; }
+
+      /* PROBLEM */
+      .problem-quote { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm); }
+      .problem-quote p { font-size: 1.1rem; font-style: italic; color: var(--muted); line-height: 1.6; }
+      .pain-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
+      .pain-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem; box-shadow: var(--shadow-sm); }
+      .pain-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+      .pain-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.25rem; color: var(--accent); }
+      .pain-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.45; }
+
+      /* FEATURES */
+      .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+      .feature-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1.25rem; box-shadow: var(--shadow-sm); transition: border-color 150ms, box-shadow 150ms; }
+      .feature-card:hover { border-color: var(--brand); box-shadow: var(--shadow-md); }
+      .feature-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+      .feature-title { font-weight: 700; font-size: 0.96rem; margin-bottom: 0.4rem; }
+      .feature-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+
+      /* JOURNEY */
+      .journey { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+      .journey-step { background: var(--surface); padding: 2rem 1.5rem; text-align: center; border-right: 1px solid var(--line); }
+      .journey-step:last-child { border-right: none; }
+      .journey-num { width: 40px; height: 40px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+      .journey-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem; }
+      .journey-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+
+      /* PERSONAS */
+      .personas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+      .persona { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1.25rem; box-shadow: var(--shadow-sm); }
+      .persona-avatar { font-size: 2.5rem; margin-bottom: 0.75rem; }
+      .persona-role { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+      .persona-goal { font-size: 0.82rem; color: var(--muted); line-height: 1.45; }
+      .persona-tag { display: inline-block; margin-top: 0.6rem; background: var(--brand-soft); color: #065043; padding: 0.18rem 0.5rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+
+      /* BEFORE/AFTER */
+      .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .compare-col { border-radius: var(--radius-sm); padding: 1.25rem; }
+      .compare-before { background: #fff5f5; border: 1px solid #fed7d7; }
+      .compare-after { background: #f0fdf4; border: 1px solid #bbf7d0; }
+      .compare-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.75rem; }
+      .compare-before .compare-label { color: #c53030; }
+      .compare-after .compare-label { color: #276749; }
+      .compare-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+      .compare-list li { font-size: 0.88rem; line-height: 1.45; display: flex; gap: 0.5rem; align-items: flex-start; }
+      .compare-list li::before { flex-shrink: 0; margin-top: 0.1rem; font-size: 0.9rem; }
+      .compare-before .compare-list li::before { content: "✗"; color: #c53030; }
+      .compare-after .compare-list li::before { content: "✓"; color: #276749; }
+
+      .cta-section { background: linear-gradient(135deg, #0f172a, #0a2018); color: #fff; border-radius: var(--radius); padding: 3rem 2rem; text-align: center; }
+      .cta-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 0.75rem; }
+      .cta-sub { color: rgba(255,255,255,0.7); font-size: 1rem; margin-bottom: 2rem; }
+      .cta-btn { display: inline-block; background: var(--brand); color: #fff; padding: 0.85rem 2.25rem; border-radius: 10px; font-weight: 700; font-size: 1.05rem; transition: background 120ms; }
+      .cta-btn:hover { background: var(--brand-dark); }
+
+      .site-footer { background: var(--header-bg); color: rgba(255,255,255,0.6); padding: 2rem 1.5rem; font-size: 0.84rem; text-align: center; }
+      .site-footer a { color: var(--brand); }
+
+      @media (max-width: 640px) {
+        .nav-links { display: none; }
+        .hamburger { display: block; }
+        .hero { padding: 3rem 1rem 2.5rem; }
+        .page-body { padding: 2rem 1rem; gap: 2.5rem; }
+        .journey { grid-template-columns: 1fr; }
+        .journey-step { border-right: none; border-bottom: 1px solid var(--line); }
+        .journey-step:last-child { border-bottom: none; }
+        .compare { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="./">FakerUI</a>
+        <nav class="nav-links" aria-label="Site navigation">
+          <a href="./perspectives/">Perspectives</a>
+          <a href="./engineering.html">Engineering</a>
+          <a href="./product.html" class="active">Product</a>
+          <a href="./capability.html">Capability</a>
+          <a href="./executive.html">Executive</a>
+          <a href="./" class="nav-cta">Open App →</a>
+        </nav>
+        <button class="hamburger" aria-label="Toggle menu" onclick="document.getElementById('mmenu').classList.toggle('open')">&#9776;</button>
+      </div>
+      <div id="mmenu" class="mobile-menu" role="navigation">
+        <a href="./perspectives/">Perspectives Hub</a>
+        <a href="./engineering.html">Engineering</a>
+        <a href="./product.html">Product</a>
+        <a href="./capability.html">Capability</a>
+        <a href="./executive.html">Executive</a>
+        <a href="./">Open App →</a>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">📦 Product Perspective</div>
+        <h1>Stop Copy-Pasting<br/>Fake Data</h1>
+        <p class="hero-sub">
+          FakerUI puts 368 realistic fake data methods in a searchable, offline-capable browser app.
+          Generate thousands of rows. Export to JSON or CSV. No backend, no sign-up, no stale data.
+        </p>
+        <div class="hero-actions">
+          <a href="./" class="btn-primary">Try It Now →</a>
+          <a href="./engineering.html" class="btn-secondary">How It Works</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- THE PROBLEM -->
+      <section>
+        <div class="section-label">The Problem</div>
+        <h2 class="section-title">Test Data Is a Solved Problem That Nobody Solved</h2>
+        <div class="problem-quote">
+          <p>"Every team has someone whose job it is to maintain a spreadsheet of fake test data — names, emails, addresses — that gets more outdated and less realistic every sprint."</p>
+        </div>
+        <div class="pain-grid">
+          <div class="pain-card">
+            <div class="pain-icon">🔁</div>
+            <div class="pain-title">Copy-paste from Stack Overflow</div>
+            <div class="pain-desc">John Doe. test@example.com. 123 Main St. The same fake data across every project, every team.</div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-icon">🕰️</div>
+            <div class="pain-title">Outdated online generators</div>
+            <div class="pain-desc">Random data websites that are unmaintained, slow, behind a login wall, or throttled after 10 rows.</div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-icon">🔒</div>
+            <div class="pain-title">Real data in dev environments</div>
+            <div class="pain-desc">Production database dumps used for testing — a privacy violation and a compliance risk waiting to happen.</div>
+          </div>
+          <div class="pain-card">
+            <div class="pain-icon">🛠️</div>
+            <div class="pain-title">Custom scripts every time</div>
+            <div class="pain-desc">Writing a one-off Python or Node script to generate 500 users for a demo, then throwing it away.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section>
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Everything You Need, Nothing You Don't</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <div class="feature-title">368 Faker Methods, Searchable</div>
+            <div class="feature-desc">Every built-in Faker provider method, fuzzy-searchable by name or description. Organized into 25 categories.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏗️</div>
+            <div class="feature-title">Schema Builder</div>
+            <div class="feature-desc">Compose multi-field schemas. Set row count (1–5,000). Assign a Faker method to each column. Generate in seconds.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📥</div>
+            <div class="feature-title">JSON &amp; CSV Export</div>
+            <div class="feature-desc">Download any generated dataset as a JSON array or RFC 4180 compliant CSV. One click.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-title">Locale-Aware</div>
+            <div class="feature-desc">Switch the Faker locale (en_US, de_DE, fr_FR, ja_JP, and dozens more) to get culturally appropriate fake data.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔁</div>
+            <div class="feature-title">Reproducible Seeding</div>
+            <div class="feature-desc">Set an integer seed to get the same dataset every time. Share seeds with teammates for consistent test fixtures.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📴</div>
+            <div class="feature-title">100% Offline</div>
+            <div class="feature-desc">After first load, works with no internet connection. No data ever leaves the browser. Runs in air-gapped environments.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <div class="feature-title">Pre-Built Templates</div>
+            <div class="feature-desc">5 ready-made schemas: User Profile, E-commerce Order, Employee Record, API Test Payload, Social Media User.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <div class="feature-title">No Sign-Up Required</div>
+            <div class="feature-desc">Open the app and generate data immediately. No account, no API key, no rate limit.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- USER JOURNEY -->
+      <section>
+        <div class="section-label">User Journey</div>
+        <h2 class="section-title">Three Steps to Real-Looking Data</h2>
+        <div class="journey" role="list">
+          <div class="journey-step" role="listitem">
+            <div class="journey-num">1</div>
+            <div class="journey-title">Search or Browse</div>
+            <div class="journey-desc">Type a keyword like "email" or "credit card" in the Explore page. Fuzzy search across 368 method names and descriptions instantly.</div>
+          </div>
+          <div class="journey-step" role="listitem">
+            <div class="journey-num">2</div>
+            <div class="journey-title">Try a Method</div>
+            <div class="journey-desc">Click "Try →" on any method card. A panel opens with live output, parameter controls, locale selector, and a Python code snippet.</div>
+          </div>
+          <div class="journey-step" role="listitem">
+            <div class="journey-num">3</div>
+            <div class="journey-title">Build &amp; Download</div>
+            <div class="journey-desc">Use Schema Builder to combine multiple methods into a multi-column dataset. Download as JSON or CSV for immediate use in tests, demos, or seeds.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERSONAS -->
+      <section>
+        <div class="section-label">Who Uses It</div>
+        <h2 class="section-title">Built for Every Role on the Team</h2>
+        <div class="personas-grid">
+          <div class="persona">
+            <div class="persona-avatar">🧑‍💻</div>
+            <div class="persona-role">QA Engineer</div>
+            <div class="persona-goal">Generates realistic test fixtures for automated test suites. Seeds databases with consistent, seeded data before each test run.</div>
+            <span class="persona-tag">Seeded datasets</span>
+          </div>
+          <div class="persona">
+            <div class="persona-avatar">👩‍🎨</div>
+            <div class="persona-role">Frontend Developer</div>
+            <div class="persona-goal">Quickly populates UI components with realistic mock data during development. No more "John Doe" everywhere.</div>
+            <span class="persona-tag">Try Panel</span>
+          </div>
+          <div class="persona">
+            <div class="persona-avatar">📊</div>
+            <div class="persona-role">Product Manager / Analyst</div>
+            <div class="persona-goal">Creates presentation-ready datasets for demos and stakeholder presentations without involving an engineer.</div>
+            <span class="persona-tag">Schema Builder + CSV</span>
+          </div>
+          <div class="persona">
+            <div class="persona-avatar">🔐</div>
+            <div class="persona-role">Security / Compliance</div>
+            <div class="persona-goal">Replaces real user data in dev/staging environments. 100% synthetic, zero PII, browser-only processing.</div>
+            <span class="persona-tag">Offline + no PII</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BEFORE/AFTER -->
+      <section>
+        <div class="section-label">Before &amp; After</div>
+        <h2 class="section-title">What Changes</h2>
+        <div class="compare">
+          <div class="compare-col compare-before">
+            <div class="compare-label">Before FakerUI</div>
+            <ul class="compare-list">
+              <li>Search Stack Overflow for "list of fake names"</li>
+              <li>Find an online generator, copy 20 rows manually</li>
+              <li>Same "John Doe" and "test@example.com" across all projects</li>
+              <li>Write a one-off Python script, lose it next sprint</li>
+              <li>Dump production DB into staging (compliance risk)</li>
+              <li>30–60 minutes per dataset, inconsistent quality</li>
+            </ul>
+          </div>
+          <div class="compare-col compare-after">
+            <div class="compare-label">After FakerUI</div>
+            <ul class="compare-list">
+              <li>Open the app (no sign-up)</li>
+              <li>Search for the method you need</li>
+              <li>Click Try → to see live output instantly</li>
+              <li>Use Schema Builder for multi-field datasets</li>
+              <li>Download JSON/CSV in one click</li>
+              <li>Under 2 minutes, fully realistic, fully synthetic</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="cta-section">
+        <div class="cta-title">Ready to Generate?</div>
+        <p class="cta-sub">368 Faker methods, offline-capable, no sign-up. Open the app and start in seconds.</p>
+        <a href="./" class="cta-btn">Open FakerUI →</a>
+      </div>
+
+    </div>
+
+    <footer class="site-footer">
+      <p>FakerUI — open-source fake data generator &bull;
+        <a href="./">Open App</a> &bull;
+        <a href="https://github.com/arvind3/fakerUI" target="_blank" rel="noopener">GitHub</a> &bull;
+        <a href="./perspectives/">All Perspectives</a>
+      </p>
+    </footer>
+  </body>
+</html>

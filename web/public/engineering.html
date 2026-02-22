@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FakerUI Engineering — architecture, tech stack, and how Python Faker runs natively in the browser via Pyodide." />
+    <title>FakerUI — Engineering</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f8fafc; --ink: #0f172a; --muted: #64748b;
+        --brand: #00b899; --brand-dark: #009980; --brand-soft: #ccf5ee;
+        --surface: #ffffff; --line: #e2e8f0;
+        --header-bg: #0f172a; --code-bg: #1e293b; --code-fg: #e2f8f4;
+        --shadow-sm: 0 1px 3px rgba(15,23,42,0.08);
+        --shadow-md: 0 4px 16px rgba(15,23,42,0.10);
+        --radius: 14px; --radius-sm: 8px;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; }
+      body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+      a { color: inherit; text-decoration: none; }
+      h1,h2,h3,h4,p { margin: 0; }
+      code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.9em; background: var(--brand-soft); color: #065043; padding: 0.1em 0.35em; border-radius: 4px; }
+      pre { margin: 0; }
+      pre code { background: none; color: var(--code-fg); padding: 0; font-size: 0.85rem; }
+
+      .site-nav { background: var(--header-bg); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; gap: 1rem; height: 56px; }
+      .nav-brand { font-weight: 800; font-size: 1.1rem; color: var(--brand); flex-shrink: 0; letter-spacing: -0.02em; }
+      .nav-links { display: flex; gap: 0.25rem; margin-left: auto; }
+      .nav-links a { color: rgba(255,255,255,0.7); padding: 0.38rem 0.75rem; border-radius: 6px; font-size: 0.88rem; font-weight: 500; transition: color 120ms, background 120ms; }
+      .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.1); }
+      .nav-cta { background: var(--brand) !important; color: #fff !important; font-weight: 700 !important; padding: 0.38rem 0.9rem !important; }
+      .nav-cta:hover { background: var(--brand-dark) !important; }
+      .hamburger { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0.25rem; margin-left: auto; }
+      .mobile-menu { display: none; flex-direction: column; gap: 0.25rem; padding: 1rem 1.5rem; background: var(--header-bg); border-top: 1px solid rgba(255,255,255,0.08); }
+      .mobile-menu a { color: rgba(255,255,255,0.8); padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.95rem; font-weight: 500; }
+      .mobile-menu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+      .mobile-menu.open { display: flex; }
+
+      .hero { background: linear-gradient(135deg, #0f172a 0%, #1a2e3b 50%, #0a2018 100%); color: #fff; padding: 5rem 1.5rem 4rem; }
+      .hero-inner { max-width: 860px; }
+      .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,184,153,0.15); color: var(--brand); padding: 0.28rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1.25rem; border: 1px solid rgba(0,184,153,0.3); }
+      .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+      .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.72); max-width: 56ch; line-height: 1.65; margin-bottom: 2rem; }
+      .hero-badges { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+      .badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); padding: 0.28rem 0.7rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+
+      .page-body { max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem; display: grid; gap: 3rem; }
+
+      .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand); margin-bottom: 0.5rem; }
+      .section-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+      .section-body { color: var(--muted); font-size: 0.98rem; max-width: 60ch; line-height: 1.65; margin-bottom: 1.5rem; }
+
+      /* ARCH FLOW */
+      .arch-flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+      .arch-node { background: var(--surface); padding: 1.25rem 1rem; text-align: center; border-right: 1px solid var(--line); position: relative; }
+      .arch-node:last-child { border-right: none; }
+      .arch-node-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+      .arch-node-title { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.25rem; }
+      .arch-node-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.4; }
+      .arch-arrow { display: flex; align-items: center; justify-content: center; background: var(--bg); font-size: 1.2rem; color: var(--brand); width: 32px; padding: 0; flex-shrink: 0; border-right: 1px solid var(--line); }
+
+      /* TECH TABLE */
+      .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
+      .tech-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem; box-shadow: var(--shadow-sm); }
+      .tech-card-name { font-weight: 700; font-size: 0.96rem; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.5rem; }
+      .tech-version { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; background: var(--brand-soft); color: #065043; padding: 0.12rem 0.38rem; border-radius: 4px; }
+      .tech-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+
+      /* DESIGN DECISIONS */
+      .decisions-grid { display: grid; gap: 1rem; }
+      .decision-card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 1rem 1.25rem; box-shadow: var(--shadow-sm); }
+      .decision-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.4rem; }
+      .decision-body { font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
+
+      /* CODE BLOCK */
+      .code-block { background: var(--code-bg); border-radius: var(--radius-sm); padding: 1.25rem 1.5rem; overflow-x: auto; }
+      .code-block pre code { font-size: 0.84rem; line-height: 1.65; }
+      .code-comment { color: #64748b; }
+      .code-cmd { color: #7dd3fc; }
+      .code-string { color: #86efac; }
+
+      /* STEPS */
+      .steps-list { display: grid; gap: 1rem; counter-reset: step; }
+      .step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem 1.25rem 1rem 3.5rem; position: relative; box-shadow: var(--shadow-sm); counter-increment: step; }
+      .step::before { content: counter(step); position: absolute; left: 1rem; top: 1rem; width: 24px; height: 24px; background: var(--brand); color: #fff; border-radius: 50%; font-size: 0.78rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+      .step-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+      .step-body { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+
+      .site-footer { background: var(--header-bg); color: rgba(255,255,255,0.6); padding: 2rem 1.5rem; font-size: 0.84rem; text-align: center; }
+      .site-footer a { color: var(--brand); }
+
+      @media (max-width: 640px) {
+        .nav-links { display: none; }
+        .hamburger { display: block; }
+        .hero { padding: 3rem 1rem 2.5rem; }
+        .page-body { padding: 2rem 1rem; gap: 2rem; }
+        .arch-flow { grid-template-columns: 1fr; }
+        .arch-node { border-right: none; border-bottom: 1px solid var(--line); }
+        .arch-node:last-child { border-bottom: none; }
+        .arch-arrow { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="./">FakerUI</a>
+        <nav class="nav-links" aria-label="Site navigation">
+          <a href="./perspectives/">Perspectives</a>
+          <a href="./engineering.html" class="active">Engineering</a>
+          <a href="./product.html">Product</a>
+          <a href="./capability.html">Capability</a>
+          <a href="./executive.html">Executive</a>
+          <a href="./" class="nav-cta">Open App →</a>
+        </nav>
+        <button class="hamburger" aria-label="Toggle menu" onclick="document.getElementById('mmenu').classList.toggle('open')">&#9776;</button>
+      </div>
+      <div id="mmenu" class="mobile-menu" role="navigation" aria-label="Mobile navigation">
+        <a href="./perspectives/">Perspectives Hub</a>
+        <a href="./engineering.html">Engineering</a>
+        <a href="./product.html">Product</a>
+        <a href="./capability.html">Capability</a>
+        <a href="./executive.html">Executive</a>
+        <a href="./">Open App →</a>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">🔧 Engineering Perspective</div>
+        <h1>Python Faker,<br/>Natively in the Browser</h1>
+        <p class="hero-sub">
+          FakerUI runs the actual Python Faker library client-side via Pyodide WebAssembly —
+          no backend, no proxy, no serialization round-trips. Build-time catalog introspection
+          delivers truthful coverage metadata at zero runtime cost.
+        </p>
+        <div class="hero-badges">
+          <span class="badge">Python 3.12</span>
+          <span class="badge">Pyodide 0.27.2</span>
+          <span class="badge">Faker 19.13.0</span>
+          <span class="badge">React 18</span>
+          <span class="badge">Vite 5</span>
+          <span class="badge">TypeScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- ARCHITECTURE -->
+      <section>
+        <div class="section-label">Architecture</div>
+        <h2 class="section-title">How Data Flows</h2>
+        <p class="section-body">
+          FakerUI is split into two phases: a build-time Python pipeline that produces a static
+          catalog, and a browser runtime that loads that catalog and executes Faker methods
+          in a dedicated Web Worker.
+        </p>
+        <div class="arch-flow" role="img" aria-label="Data flow: Python introspection → catalog.json → React SPA → Pyodide Worker → Generated Data">
+          <div class="arch-node">
+            <div class="arch-node-icon">🐍</div>
+            <div class="arch-node-title">Build time</div>
+            <div class="arch-node-desc">Python introspects Faker 19.13.0, extracts 368 methods from 25 providers, writes <code>catalog.json</code></div>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            <div class="arch-node-icon">📄</div>
+            <div class="arch-node-title">catalog.json</div>
+            <div class="arch-node-desc">Static asset deployed alongside the SPA. Contains provider metadata, method signatures, and the whitelist.</div>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            <div class="arch-node-icon">⚛️</div>
+            <div class="arch-node-title">React SPA</div>
+            <div class="arch-node-desc">Vite-built TypeScript app. Loads catalog on start. Renders Explore, Schema Builder, and Try Panel.</div>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            <div class="arch-node-icon">🔬</div>
+            <div class="arch-node-title">Pyodide Worker</div>
+            <div class="arch-node-desc">Web Worker loads Pyodide + Faker wheel bundle. Executes method calls, returns JSON results.</div>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            <div class="arch-node-icon">✅</div>
+            <div class="arch-node-title">Generated Data</div>
+            <div class="arch-node-desc">Results rendered in the Try Panel or Schema Builder preview. Downloadable as JSON or CSV.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section>
+        <div class="section-label">Tech Stack</div>
+        <h2 class="section-title">Components &amp; Versions</h2>
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-card-name">Python <span class="tech-version">3.12</span></div>
+            <div class="tech-desc">Build-time catalog introspection. Inspects Faker provider class hierarchy, extracts method signatures via <code>inspect</code> module.</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">Pyodide <span class="tech-version">0.27.2</span></div>
+            <div class="tech-desc">Python runtime compiled to WebAssembly. Runs in a dedicated Web Worker to keep the UI thread non-blocking.</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">Faker <span class="tech-version">19.13.0</span></div>
+            <div class="tech-desc">The industry-standard Python fake data library. 25 built-in providers. Locale-aware (100+ locales).</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">React <span class="tech-version">18</span></div>
+            <div class="tech-desc">UI framework. Concurrent rendering for smooth schema generation progress updates.</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">TypeScript <span class="tech-version">5.x</span></div>
+            <div class="tech-desc">Full type coverage. Catalog types match the build-time JSON schema exactly.</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">Vite <span class="tech-version">5.x</span></div>
+            <div class="tech-desc">Build tool. Bundles the SPA, copies <code>public/</code> assets (catalog, Pyodide runtime, wheels) into <code>dist/</code>.</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">Fuse.js <span class="tech-version">7.x</span></div>
+            <div class="tech-desc">Client-side fuzzy search over 368 method names and docstrings. No server needed.</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-card-name">Vitest + Playwright</div>
+            <div class="tech-desc">Unit tests with <code>@testing-library/react</code>. E2E smoke tests with Playwright (Chromium).</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DESIGN DECISIONS -->
+      <section>
+        <div class="section-label">Design Decisions</div>
+        <h2 class="section-title">Key Architectural Choices</h2>
+        <div class="decisions-grid">
+          <div class="decision-card">
+            <div class="decision-title">Whitelist Security Model</div>
+            <div class="decision-body">
+              Only methods in the pre-approved <code>whitelist</code> array (stored in <code>catalog.json</code>) can be called at runtime.
+              The Pyodide worker validates every method name against the whitelist before execution.
+              This prevents arbitrary code execution and ensures safe exposure of the Faker API surface.
+            </div>
+          </div>
+          <div class="decision-card">
+            <div class="decision-title">Web Worker Isolation</div>
+            <div class="decision-body">
+              Pyodide and the entire Faker runtime run inside a dedicated Web Worker.
+              The main UI thread never blocks, even during large schema generation (1,000–5,000 rows).
+              Progress callbacks stream back via <code>postMessage</code> to drive the progress bar.
+            </div>
+          </div>
+          <div class="decision-card">
+            <div class="decision-title">Build-Time Introspection</div>
+            <div class="decision-body">
+              Provider metadata (method signatures, docstrings, parameter types) is extracted at build time
+              by a Python script that imports Faker and walks the class hierarchy.
+              This guarantees the UI catalog is always truthful — no reflection at runtime,
+              no stale documentation, no mismatch between displayed methods and executable ones.
+            </div>
+          </div>
+          <div class="decision-card">
+            <div class="decision-title">Zero Backend Architecture</div>
+            <div class="decision-body">
+              Served from GitHub Pages (static CDN). The Pyodide runtime + Faker wheels are fetched once
+              and cached by the service worker. After first load, the app works fully offline.
+              No user data ever leaves the browser — no analytics, no auth, no API calls.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section>
+        <div class="section-label">Runtime</div>
+        <h2 class="section-title">How a Method Call Works</h2>
+        <div class="steps-list">
+          <div class="step">
+            <div class="step-title">User selects a method (e.g., <code>email()</code>)</div>
+            <div class="step-body">The React UI reads the <code>ActiveFormatter</code> object from the in-memory catalog. No network call needed — the catalog was already loaded on startup.</div>
+          </div>
+          <div class="step">
+            <div class="step-title">UI sends a message to the Pyodide Web Worker</div>
+            <div class="step-body">A structured message <code>{ method, locale, count, seed, kwargs }</code> is sent via <code>postMessage</code>. The worker queue handles concurrent requests.</div>
+          </div>
+          <div class="step">
+            <div class="step-title">Worker validates and executes</div>
+            <div class="step-body">The worker checks the method name against the whitelist, constructs <code>Faker(locale=locale, seed=seed)</code>, and calls <code>getattr(faker, method)(**kwargs)</code> in a loop.</div>
+          </div>
+          <div class="step">
+            <div class="step-title">Results streamed back in chunks</div>
+            <div class="step-body">For large batches, results are posted back in progress chunks (every 100 rows). The UI progress bar updates in real time. Final results are serialized as JSON.</div>
+          </div>
+          <div class="step">
+            <div class="step-title">React renders the result</div>
+            <div class="step-body">The Try Panel displays results in a table or JSON view. Schema Builder results are available for JSON/CSV download via <code>PapaParse</code>.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GETTING STARTED -->
+      <section>
+        <div class="section-label">Getting Started</div>
+        <h2 class="section-title">Run Locally</h2>
+        <div class="code-block">
+          <pre><code><span class="code-comment"># Clone and install Python deps</span>
+<span class="code-cmd">git clone https://github.com/arvind3/fakerUI.git</span>
+<span class="code-cmd">cd fakerUI</span>
+<span class="code-cmd">pip install -r catalog_build/requirements.txt</span>
+
+<span class="code-comment"># Build the method catalog (writes web/public/catalog.json)</span>
+<span class="code-cmd">python catalog_build/build_catalog.py</span>
+
+<span class="code-comment"># Run Python tests</span>
+<span class="code-cmd">pytest catalog_build/tests</span>
+
+<span class="code-comment"># Install frontend deps and fetch Pyodide runtime</span>
+<span class="code-cmd">cd web && npm install</span>
+<span class="code-cmd">npm run pyodide:fetch</span>
+<span class="code-cmd">npm run wheels:fetch</span>
+
+<span class="code-comment"># Start dev server</span>
+<span class="code-cmd">npm run dev</span>
+<span class="code-comment"># → http://localhost:5173/</span></code></pre>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="site-footer">
+      <p>FakerUI — open-source fake data generator &bull;
+        <a href="./">Open App</a> &bull;
+        <a href="https://github.com/arvind3/fakerUI" target="_blank" rel="noopener">GitHub</a> &bull;
+        <a href="./perspectives/">All Perspectives</a>
+      </p>
+    </footer>
+
+    <script>
+      document.getElementById('mmenu') && document.querySelector('.hamburger').addEventListener('click', function() {
+        document.getElementById('mmenu').classList.toggle('open');
+      });
+    </script>
+  </body>
+</html>

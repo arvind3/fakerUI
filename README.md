@@ -12,13 +12,18 @@ Repository: https://github.com/arvind3/fakerUI
 
 ## Product Status
 
-Current status: developer-grade product.
+Current status: production-ready UI with full feature set.
 
-- Core functionality is stable and covered by tests.
-- Security and offline behavior are implemented.
-- UI/UX is functional but not yet production-polished for a customer-facing launch.
+**Phase 2 UI/UX shipped:**
+- Full-page viewport layout — Explore page fills the browser window, two panels scroll independently
+- Method cards replace the old table — Try button always visible on every card, no horizontal scroll
+- 3-step guided flow: "Search → Choose provider → Click Try" with live step indicator
+- New design system: Plus Jakarta Sans, slate/teal color palette matching modern SaaS standards
+- Home page with rotating sample output, category quick-launch cards
+- Templates page with 5 pre-built schemas (User Profile, E-commerce Order, Employee Record, API Test Payload, Social Media User)
+- Improved TryPanel with skeleton loader, copy button, and collapsible Python code snippet
 
-If you need polished design systems, deeper onboarding UX, and enterprise-grade observability, treat this as a strong foundation rather than a finished product.
+Core functionality is stable and covered by unit tests (Vitest) and E2E smoke tests (Playwright).
 
 ## Who This Is For
 
@@ -210,6 +215,20 @@ Expected. Pyodide and wheel assets are large and only fetched once, then cached 
 ### Live site loads but shows "Failed to Load FakerUI"
 
 Usually means catalog/runtime assets were not generated before build/deploy.
+
+## Awareness Pages
+
+Perspective pages deployed alongside the app on GitHub Pages:
+
+| Page | URL | Audience |
+|---|---|---|
+| Perspectives Hub | `https://arvind3.github.io/fakerUI/perspectives/` | Entry point — links to all views |
+| Engineering | `https://arvind3.github.io/fakerUI/engineering.html` | Developers — architecture, tech stack, how it works |
+| Product | `https://arvind3.github.io/fakerUI/product.html` | PMs / end users — features, journey, before/after |
+| Capability | `https://arvind3.github.io/fakerUI/capability.html` | Strategists — capability map, applications, integrations |
+| Executive | `https://arvind3.github.io/fakerUI/executive.html` | Leadership — thesis, opportunity, strategic value |
+
+These are static HTML pages in `web/public/` — Vite copies them into `web/dist/` automatically as part of the standard build.
 
 ## Product Documentation
 

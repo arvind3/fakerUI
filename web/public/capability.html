@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FakerUI Capability Map — test data, demo generation, API mocking, privacy-safe development, and integration patterns." />
+    <title>FakerUI — Capability Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f8fafc; --ink: #0f172a; --muted: #64748b;
+        --brand: #00b899; --brand-dark: #009980; --brand-soft: #ccf5ee;
+        --surface: #ffffff; --line: #e2e8f0;
+        --header-bg: #0f172a;
+        --shadow-sm: 0 1px 3px rgba(15,23,42,0.08);
+        --shadow-md: 0 4px 16px rgba(15,23,42,0.10);
+        --radius: 14px; --radius-sm: 8px;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; min-height: 100%; }
+      body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+      a { color: inherit; text-decoration: none; }
+      h1,h2,h3,h4,p { margin: 0; }
+      code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.9em; background: var(--brand-soft); color: #065043; padding: 0.1em 0.35em; border-radius: 4px; }
+
+      .site-nav { background: var(--header-bg); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; gap: 1rem; height: 56px; }
+      .nav-brand { font-weight: 800; font-size: 1.1rem; color: var(--brand); flex-shrink: 0; letter-spacing: -0.02em; }
+      .nav-links { display: flex; gap: 0.25rem; margin-left: auto; }
+      .nav-links a { color: rgba(255,255,255,0.7); padding: 0.38rem 0.75rem; border-radius: 6px; font-size: 0.88rem; font-weight: 500; transition: color 120ms, background 120ms; }
+      .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,0.1); }
+      .nav-cta { background: var(--brand) !important; color: #fff !important; font-weight: 700 !important; }
+      .hamburger { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0.25rem; margin-left: auto; }
+      .mobile-menu { display: none; flex-direction: column; gap: 0.25rem; padding: 1rem 1.5rem; background: var(--header-bg); border-top: 1px solid rgba(255,255,255,0.08); }
+      .mobile-menu a { color: rgba(255,255,255,0.8); padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.95rem; }
+      .mobile-menu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+      .mobile-menu.open { display: flex; }
+
+      .hero { background: linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #0a1820 100%); color: #fff; padding: 5rem 1.5rem 4rem; }
+      .hero-inner { max-width: 860px; }
+      .hero-eyebrow { display: inline-block; background: rgba(0,184,153,0.15); color: var(--brand); padding: 0.28rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1.25rem; border: 1px solid rgba(0,184,153,0.3); }
+      .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
+      .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.72); max-width: 54ch; line-height: 1.65; }
+
+      .page-body { max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem; display: grid; gap: 4rem; }
+      .section-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand); margin-bottom: 0.5rem; }
+      .section-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+      .section-body { color: var(--muted); font-size: 0.98rem; max-width: 60ch; line-height: 1.65; margin-bottom: 1.5rem; }
+
+      /* CAPABILITY CARDS */
+      .cap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+      .cap-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1.25rem; box-shadow: var(--shadow-sm); }
+      .cap-card:hover { border-color: var(--brand); box-shadow: var(--shadow-md); }
+      .cap-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+      .cap-title { font-weight: 700; font-size: 0.96rem; margin-bottom: 0.4rem; }
+      .cap-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.75rem; }
+      .cap-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+      .cap-tag { background: var(--brand-soft); color: #065043; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.72rem; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+
+      /* DOMAIN COVERAGE */
+      .domains-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+      .domain-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem; box-shadow: var(--shadow-sm); }
+      .domain-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+      .domain-icon { font-size: 1.4rem; }
+      .domain-name { font-weight: 700; font-size: 0.92rem; }
+      .domain-methods { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+      .domain-method { font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; background: var(--bg); border: 1px solid var(--line); color: var(--muted); padding: 0.1rem 0.38rem; border-radius: 4px; }
+
+      /* INTEGRATION PATTERNS */
+      .integrations-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+      .integration { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1.25rem; box-shadow: var(--shadow-sm); }
+      .integration-pair { font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--ink); display: flex; align-items: center; gap: 0.5rem; }
+      .plus { color: var(--brand); font-size: 1.1rem; }
+      .integration-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+      .integration-example { margin-top: 0.75rem; font-size: 0.78rem; font-family: "IBM Plex Mono", monospace; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.75rem; color: var(--muted); }
+
+      /* CROSS-DOMAIN TABLE */
+      .app-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--line); }
+      .app-table th { background: var(--bg); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--line); }
+      .app-table td { padding: 0.75rem 1rem; font-size: 0.88rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+      .app-table tr:last-child td { border-bottom: none; }
+      .app-table tr:hover td { background: var(--bg); }
+      .app-table td:first-child { font-weight: 600; }
+
+      .cta-section { background: linear-gradient(135deg, #0f172a, #0a1820); color: #fff; border-radius: var(--radius); padding: 3rem 2rem; text-align: center; }
+      .cta-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 0.75rem; }
+      .cta-sub { color: rgba(255,255,255,0.7); font-size: 1rem; margin-bottom: 2rem; }
+      .cta-btn { display: inline-block; background: var(--brand); color: #fff; padding: 0.85rem 2.25rem; border-radius: 10px; font-weight: 700; font-size: 1.05rem; }
+      .cta-btn:hover { background: var(--brand-dark); }
+
+      .site-footer { background: var(--header-bg); color: rgba(255,255,255,0.6); padding: 2rem 1.5rem; font-size: 0.84rem; text-align: center; }
+      .site-footer a { color: var(--brand); }
+
+      @media (max-width: 640px) {
+        .nav-links { display: none; }
+        .hamburger { display: block; }
+        .hero { padding: 3rem 1rem 2.5rem; }
+        .page-body { padding: 2rem 1rem; gap: 2.5rem; }
+        .app-table { font-size: 0.8rem; }
+        .app-table th, .app-table td { padding: 0.6rem 0.75rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="./">FakerUI</a>
+        <nav class="nav-links" aria-label="Site navigation">
+          <a href="./perspectives/">Perspectives</a>
+          <a href="./engineering.html">Engineering</a>
+          <a href="./product.html">Product</a>
+          <a href="./capability.html" class="active">Capability</a>
+          <a href="./executive.html">Executive</a>
+          <a href="./" class="nav-cta">Open App →</a>
+        </nav>
+        <button class="hamburger" aria-label="Toggle menu" onclick="document.getElementById('mmenu').classList.toggle('open')">&#9776;</button>
+      </div>
+      <div id="mmenu" class="mobile-menu" role="navigation">
+        <a href="./perspectives/">Perspectives Hub</a>
+        <a href="./engineering.html">Engineering</a>
+        <a href="./product.html">Product</a>
+        <a href="./capability.html">Capability</a>
+        <a href="./executive.html">Executive</a>
+        <a href="./">Open App →</a>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div class="hero-inner">
+        <div class="hero-eyebrow">🚀 Capability Perspective</div>
+        <h1>What FakerUI<br/>Enables Your Team to Do</h1>
+        <p class="hero-sub">
+          A capability map for organizations adopting FakerUI: from test data automation
+          to privacy-safe development workflows, demo generation, and data pipeline seeding.
+        </p>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- CAPABILITY DOMAINS -->
+      <section>
+        <div class="section-label">Core Capabilities</div>
+        <h2 class="section-title">What FakerUI Enables</h2>
+        <p class="section-body">Five primary capability areas, each unlocked by the combination of Python Faker's data coverage and FakerUI's browser-native, zero-backend architecture.</p>
+        <div class="cap-grid">
+          <div class="cap-card">
+            <div class="cap-icon">🧪</div>
+            <div class="cap-title">Test Data Generation</div>
+            <div class="cap-desc">Generate realistic, schema-aligned datasets for automated test suites. Seed for reproducibility. Scale to 5,000 rows in seconds.</div>
+            <div class="cap-tags">
+              <span class="cap-tag">seeded</span>
+              <span class="cap-tag">locale-aware</span>
+              <span class="cap-tag">bulk export</span>
+            </div>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">🔒</div>
+            <div class="cap-title">Privacy-Safe Development</div>
+            <div class="cap-desc">Replace real user data in dev and staging environments with synthetic equivalents. Zero PII, zero compliance risk, 100% browser-side.</div>
+            <div class="cap-tags">
+              <span class="cap-tag">no PII</span>
+              <span class="cap-tag">offline</span>
+              <span class="cap-tag">GDPR-safe</span>
+            </div>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">🎤</div>
+            <div class="cap-title">Demo Data Generation</div>
+            <div class="cap-desc">Create presentation-ready datasets for stakeholder demos, sales engineering, and product walkthroughs — in minutes, not hours.</div>
+            <div class="cap-tags">
+              <span class="cap-tag">CSV export</span>
+              <span class="cap-tag">JSON export</span>
+              <span class="cap-tag">templates</span>
+            </div>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">🔌</div>
+            <div class="cap-title">API Mock Data</div>
+            <div class="cap-desc">Consistent, structured fake payloads for API integration tests, contract testing, and Postman collections.</div>
+            <div class="cap-tags">
+              <span class="cap-tag">schema builder</span>
+              <span class="cap-tag">JSON output</span>
+            </div>
+          </div>
+          <div class="cap-card">
+            <div class="cap-icon">🌱</div>
+            <div class="cap-title">Database Seeding</div>
+            <div class="cap-desc">Seed development and staging databases with realistic data. Export CSV/JSON for direct COPY INTO or INSERT operations.</div>
+            <div class="cap-tags">
+              <span class="cap-tag">bulk rows</span>
+              <span class="cap-tag">CSV</span>
+              <span class="cap-tag">reproducible</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOMAIN COVERAGE -->
+      <section>
+        <div class="section-label">Data Domains</div>
+        <h2 class="section-title">What Data Can Be Generated</h2>
+        <p class="section-body">25 Faker providers covering real-world data domains — each with locale-aware variations for international teams.</p>
+        <div class="domains-grid">
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">👤</span><span class="domain-name">Identity</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">name()</span><span class="domain-method">email()</span><span class="domain-method">phone_number()</span><span class="domain-method">ssn()</span><span class="domain-method">date_of_birth()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">📍</span><span class="domain-name">Address</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">address()</span><span class="domain-method">city()</span><span class="domain-method">country()</span><span class="domain-method">postcode()</span><span class="domain-method">latitude()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">💳</span><span class="domain-name">Financial</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">credit_card_number()</span><span class="domain-method">iban()</span><span class="domain-method">currency()</span><span class="domain-method">pricetag()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">🏢</span><span class="domain-name">Company</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">company()</span><span class="domain-method">job()</span><span class="domain-method">catch_phrase()</span><span class="domain-method">bs()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">🌐</span><span class="domain-name">Internet</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">url()</span><span class="domain-method">domain_name()</span><span class="domain-method">ipv4()</span><span class="domain-method">user_agent()</span><span class="domain-method">slug()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">📅</span><span class="domain-name">Date &amp; Time</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">date()</span><span class="domain-method">date_time()</span><span class="domain-method">unix_time()</span><span class="domain-method">time_zone()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">💻</span><span class="domain-name">Technical</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">uuid4()</span><span class="domain-method">md5()</span><span class="domain-method">sha256()</span><span class="domain-method">port_number()</span>
+            </div>
+          </div>
+          <div class="domain-card">
+            <div class="domain-header"><span class="domain-icon">📝</span><span class="domain-name">Content</span></div>
+            <div class="domain-methods">
+              <span class="domain-method">sentence()</span><span class="domain-method">paragraph()</span><span class="domain-method">word()</span><span class="domain-method">text()</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CROSS-DOMAIN APPLICATIONS -->
+      <section>
+        <div class="section-label">Applications</div>
+        <h2 class="section-title">Cross-Domain Use Cases</h2>
+        <div style="overflow-x:auto;">
+          <table class="app-table">
+            <thead>
+              <tr>
+                <th>Team / Domain</th>
+                <th>Use Case</th>
+                <th>FakerUI Feature</th>
+                <th>Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>QA / Testing</td>
+                <td>Seed test databases with consistent data before each CI run</td>
+                <td>Schema Builder + Seed integer</td>
+                <td>JSON array, deterministic</td>
+              </tr>
+              <tr>
+                <td>Fintech</td>
+                <td>Generate IBAN, credit card, and transaction data for payment flow tests</td>
+                <td>Explore → credit_card_number, iban</td>
+                <td>Structured CSV</td>
+              </tr>
+              <tr>
+                <td>HR / People Ops</td>
+                <td>Populate employee management demo with realistic name, job, department data</td>
+                <td>Employee Record template</td>
+                <td>JSON / CSV</td>
+              </tr>
+              <tr>
+                <td>E-Commerce</td>
+                <td>Create product catalog and order history for storefront demos</td>
+                <td>E-Commerce Order template</td>
+                <td>CSV for import</td>
+              </tr>
+              <tr>
+                <td>Data Engineering</td>
+                <td>Seed dbt dev environment with representative data volumes</td>
+                <td>Schema Builder, bulk rows</td>
+                <td>CSV, 1–5,000 rows</td>
+              </tr>
+              <tr>
+                <td>API Development</td>
+                <td>Generate mock response payloads for API integration tests</td>
+                <td>Schema Builder + JSON export</td>
+                <td>JSON array</td>
+              </tr>
+              <tr>
+                <td>Security / Audit</td>
+                <td>Replace real PII in exported reports with synthetic equivalents</td>
+                <td>Any method, offline mode</td>
+                <td>CSV (no network calls)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- INTEGRATION PATTERNS -->
+      <section>
+        <div class="section-label">Integration Patterns</div>
+        <h2 class="section-title">FakerUI + Your Existing Stack</h2>
+        <div class="integrations-grid">
+          <div class="integration">
+            <div class="integration-pair">FakerUI <span class="plus">+</span> Playwright</div>
+            <div class="integration-desc">Export a seeded JSON dataset from FakerUI, import it as test fixtures in Playwright E2E tests. Consistent data across local and CI runs.</div>
+            <div class="integration-example">JSON.parse(fs.readFileSync('users-seed-42.json'))</div>
+          </div>
+          <div class="integration">
+            <div class="integration-pair">FakerUI <span class="plus">+</span> Postman</div>
+            <div class="integration-desc">Generate realistic variable values for Postman collection environments. Import the CSV as environment variables for bulk API testing.</div>
+            <div class="integration-example">postman.setEnvironmentVariable("email", ...)</div>
+          </div>
+          <div class="integration">
+            <div class="integration-pair">FakerUI <span class="plus">+</span> dbt</div>
+            <div class="integration-desc">Seed dbt development environments with CSV data loaded via <code>dbt seed</code>. Keeps dev data realistic without touching production.</div>
+            <div class="integration-example">dbt seed --select users_seed</div>
+          </div>
+          <div class="integration">
+            <div class="integration-pair">FakerUI <span class="plus">+</span> Storybook</div>
+            <div class="integration-desc">Generate realistic prop values for Storybook component stories. Copy the JSON output directly into <code>args</code> for each story variant.</div>
+            <div class="integration-example">args: { name: "Alexandra Morrison" }</div>
+          </div>
+          <div class="integration">
+            <div class="integration-pair">FakerUI <span class="plus">+</span> PostgreSQL</div>
+            <div class="integration-desc">Export CSV and bulk-load via <code>COPY INTO</code> or pg_restore equivalent. Seed dev/staging tables with thousands of rows in seconds.</div>
+            <div class="integration-example">COPY users FROM 'users.csv' CSV HEADER;</div>
+          </div>
+          <div class="integration">
+            <div class="integration-pair">FakerUI <span class="plus">+</span> Jupyter</div>
+            <div class="integration-desc">Export JSON, load into a Pandas DataFrame for exploratory data analysis, ML prototyping, or chart generation with realistic-looking sample data.</div>
+            <div class="integration-example">df = pd.read_json('schema-export.json')</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="cta-section">
+        <div class="cta-title">Start Generating</div>
+        <p class="cta-sub">Access all 368 methods and export datasets in any format. No sign-up, no backend.</p>
+        <a href="./" class="cta-btn">Open FakerUI →</a>
+      </div>
+
+    </div>
+
+    <footer class="site-footer">
+      <p>FakerUI — open-source fake data generator &bull;
+        <a href="./">Open App</a> &bull;
+        <a href="https://github.com/arvind3/fakerUI" target="_blank" rel="noopener">GitHub</a> &bull;
+        <a href="./perspectives/">All Perspectives</a>
+      </p>
+    </footer>
+  </body>
+</html>
