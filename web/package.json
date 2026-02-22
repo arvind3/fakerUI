@@ -1,0 +1,41 @@
+{
+  "name": "fakerui-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && npm run verify:assets && vite build",
+    "preview": "vite preview",
+    "preview:static": "http-server dist -a 127.0.0.1 -p 4173 -s",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "live:check": "node ./scripts/live-check.mjs",
+    "verify:assets": "node ./scripts/verify-static-assets.mjs",
+    "catalog:build": "python ../catalog_build/build_catalog.py",
+    "wheels:fetch": "python ../catalog_build/fetch_wheels.py",
+    "pyodide:fetch": "node ./scripts/fetch-pyodide.mjs"
+  },
+  "dependencies": {
+    "fuse.js": "^7.1.0",
+    "papaparse": "^5.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "http-server": "^14.1.1",
+    "jsdom": "^25.0.1",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "faker": "19.13.0",
+  "pyodide": "0.27.2",
+  "plugin_packs": [
+    {
+      "name": "faker-vehicle",
+      "version": "0.2.0",
+      "enabled": false,
+      "python_package": "faker-vehicle",
+      "provider_modules": [
+        "faker_vehicle.providers.vehicle"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Node
+node_modules/
+web/dist/
+web/.vite/
+web/test-results/
+web/playwright-report/
+
+# Generated assets
+web/public/catalog.json
+web/public/runtime-manifest.json
+web/public/pyodide/runtime/
+web/public/pyodide/wheels/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

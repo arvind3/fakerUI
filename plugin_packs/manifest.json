@@ -1,0 +1,14 @@
+{
+  "packs": [
+    {
+      "name": "faker-vehicle",
+      "description": "Vehicle provider pack",
+      "enabled": false,
+      "python_package": "faker-vehicle",
+      "version": "0.2.0",
+      "provider_modules": [
+        "faker_vehicle.providers.vehicle"
+      ]
+    }
+  ]
+}
