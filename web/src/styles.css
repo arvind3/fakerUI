@@ -799,11 +799,53 @@ label {
 
 /* ─── TEMPLATE CARDS ─────────────────────────────────────────── */
 
+.template-sections {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.template-section {
+  display: grid;
+  gap: 0.9rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.template-section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.template-section-header {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.template-section-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.template-section-title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.template-section-description {
+  margin: 0;
+  color: var(--muted);
+  max-width: 70ch;
+}
+
 .template-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .template-card {
