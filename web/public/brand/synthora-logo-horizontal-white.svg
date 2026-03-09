@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 68" width="340" height="68">
+  
+  <rect x="12" y="10" width="48" height="48" rx="6.7" fill="#FFFFFF"/>
+  <rect x="19.2" y="17.2" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C"/><rect x="31.3" y="17.2" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C"/><rect x="43.4" y="17.2" width="9.4" height="9.4" rx="1.9" fill="#F0A500"/><rect x="19.2" y="29.3" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C60"/><rect x="31.3" y="29.3" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C"/><rect x="43.4" y="29.3" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C"/><rect x="19.2" y="41.4" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C"/><rect x="31.3" y="41.4" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C60"/><rect x="43.4" y="41.4" width="9.4" height="9.4" rx="1.9" fill="#0A6E5C"/>
+  <text x="72" y="44" font-family="'DM Sans', 'Segoe UI', Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="-0.5">
+    <tspan fill="#FFFFFF">Synth</tspan><tspan fill="#FFFFFF">ora</tspan>
+  </text>
+</svg>

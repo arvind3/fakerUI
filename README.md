@@ -1,8 +1,8 @@
-# FakerUI
+# Synthora
 
-Create realistic test data in the browser with a complete, searchable Faker catalog for a pinned version.
+Synthetic data for everyone — create realistic test data in the browser with a complete, searchable Faker catalog.
 
-FakerUI is a static GitHub Pages product that combines:
+Synthora is a static GitHub Pages product that combines:
 - build-time Python introspection (truthful coverage metadata)
 - in-browser Faker generation via Pyodide (no backend)
 - optional plugin packs (explicitly labeled)
@@ -18,7 +18,7 @@ Current status: production-ready UI with full feature set.
 - Full-page viewport layout — Explore page fills the browser window, two panels scroll independently
 - Method cards replace the old table — Try button always visible on every card, no horizontal scroll
 - 3-step guided flow: "Search → Choose provider → Click Try" with live step indicator
-- New design system: Plus Jakarta Sans, slate/teal color palette matching modern SaaS standards
+- New design system: DM Sans + Instrument Serif, emerald/slate color palette matching modern SaaS standards
 - Home page with rotating sample output, category quick-launch cards
 - Templates page with 5 pre-built schemas (User Profile, E-commerce Order, Employee Record, API Test Payload, Social Media User)
 - Improved TryPanel with skeleton loader, copy button, and collapsible Python code snippet
@@ -212,7 +212,7 @@ npm run wheels:fetch
 
 Expected. Pyodide and wheel assets are large and only fetched once, then cached by service worker.
 
-### Live site loads but shows "Failed to Load FakerUI"
+### Live site loads but shows "Failed to Load Synthora"
 
 Usually means catalog/runtime assets were not generated before build/deploy.
 

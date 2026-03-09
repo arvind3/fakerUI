@@ -82,7 +82,7 @@ describe("App", () => {
     render(<App />);
 
     // Brand button is always visible
-    expect(await screen.findByRole("button", { name: "FakerUI home" })).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: "Synthora home" })).toBeInTheDocument();
 
     // Navigate to Explore (Catalog) page
     const exploreBtn = await screen.findByRole("button", { name: /^Explore$/i });
