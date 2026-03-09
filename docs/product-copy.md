@@ -4,7 +4,7 @@ Use this copy set for landing page sections, in-app messaging, and release notes
 
 ## Positioning
 
-FakerUI is a browser-based Faker workspace for teams that need realistic test data quickly, without running backend services.
+Synthora is a browser-based Faker workspace for teams that need realistic test data quickly, without running backend services.
 
 ## Hero
 
@@ -53,4 +53,4 @@ Generation runs in-browser with a whitelist of allowed Faker methods. No backend
 
 ## Product Maturity Note
 
-FakerUI is production-capable for engineering workflows, with active investment in UI/UX polish for broader non-technical adoption.
+Synthora is production-capable for engineering workflows, with active investment in UI/UX polish for broader non-technical adoption.

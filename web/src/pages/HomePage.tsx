@@ -117,10 +117,10 @@ export function HomePage({ onNavigateToCatalog, onNavigateToSchema }: HomePagePr
     <div className="home-page">
       <section className="home-hero panel">
         <p className="eyebrow">No sign-up. No limits. Runs offline.</p>
-        <h1>Generate any fake data, instantly</h1>
+        <h1>Synthetic Data for Everyone</h1>
         <p className="home-subtitle">
-          Every method from the Faker library, available through a clean UI. Perfect for testing, demos, and
-          development.
+          Every method from the Faker library, available through a clean UI. Generate realistic test data for
+          development, demos, and QA — right in your browser.
         </p>
 
         <div className="home-sample" aria-live="polite" aria-label="Example output rotating">

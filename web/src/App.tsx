@@ -105,7 +105,7 @@ export default function App(): JSX.Element {
     return (
       <main className="app-shell">
         <section className="panel" role="alert" aria-live="assertive">
-          <h1>Failed to Load FakerUI</h1>
+          <h1>Failed to Load Synthora</h1>
           <p>{error}</p>
           <p>
             Build catalog first with <code>python ../catalog_build/build_catalog.py</code>.
@@ -119,7 +119,7 @@ export default function App(): JSX.Element {
     return (
       <main className="app-shell" aria-busy="true">
         <section className="panel loading-panel">
-          <h1>Loading FakerUI</h1>
+          <h1>Loading Synthora</h1>
           <p>Preparing providers and formatter metadata&hellip;</p>
         </section>
       </main>
@@ -134,9 +134,14 @@ export default function App(): JSX.Element {
             type="button"
             className="brand-btn"
             onClick={() => setPage("home")}
-            aria-label="FakerUI home"
+            aria-label="Synthora home"
           >
-            FakerUI
+            <img
+              src={`${import.meta.env.BASE_URL}brand/synthora-logo-horizontal.svg`}
+              alt="Synthora"
+              height="28"
+              style={{ display: "block" }}
+            />
           </button>
           <span className="header-badge" aria-live="polite">
             {runtimeLabel}

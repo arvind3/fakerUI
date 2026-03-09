@@ -87,7 +87,7 @@ _ALLOWED_METHODS = set()
 
 
 def _network_block(*args, **kwargs):
-    raise RuntimeError("Network access is disabled in FakerUI runtime")
+    raise RuntimeError("Network access is disabled in Synthora runtime")
 
 # Best-effort network sandbox in Python runtime.
 socket.socket = _network_block
