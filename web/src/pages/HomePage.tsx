@@ -97,7 +97,7 @@ export function HomePage({ onNavigateToCatalog, onNavigateToSchema }: HomePagePr
           <img
             src={`${BASE_URL}brand/synthora-logo-horizontal-white.svg`}
             alt="Synthora"
-            height="40"
+            height="56"
           />
         </div>
 

@@ -173,14 +173,6 @@ export default function App(): JSX.Element {
           </button>
         </nav>
 
-        <div className="header-meta">
-          <span className="muted" aria-label="Faker version">
-            Faker v{catalog.faker_version}
-          </span>
-          <span className="muted" aria-label="Method count">
-            {catalog.whitelist.length} methods
-          </span>
-        </div>
       </header>
 
       {page === "home" && (
@@ -213,27 +205,6 @@ export default function App(): JSX.Element {
       {page === "templates" && <TemplatesPage onUseTemplate={handleUseTemplate} />}
 
       {page === "coverage" && <CoveragePage catalog={catalog} runtimeManifest={runtimeManifest} />}
-
-      <footer className="app-footer panel">
-        <span>
-          {catalog.providers.length} providers &middot; {catalog.whitelist.length} whitelisted methods
-        </span>
-        <button
-          type="button"
-          className="footer-link"
-          onClick={() => setPage("coverage")}
-        >
-          Coverage &amp; versions
-        </button>
-        <a
-          href="https://github.com/arvind3/fakerUI"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="footer-link"
-        >
-          GitHub
-        </a>
-      </footer>
 
       <TryPanel
         open={selectedFormatter !== null}

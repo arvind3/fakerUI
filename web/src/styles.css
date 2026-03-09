@@ -773,12 +773,12 @@ label {
 }
 
 .hero-logo {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .home-hero-dark h1 {
   font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
-  font-size: clamp(2.6rem, 5.5vw, 4rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
   font-weight: 400;
   color: #ffffff;
   letter-spacing: -0.03em;
@@ -903,6 +903,7 @@ label {
   display: grid;
   gap: 0.9rem;
   padding-top: 1.25rem;
+  padding-inline: 0.5rem;
   border-top: 1px solid var(--line);
 }
 
@@ -1274,6 +1275,19 @@ progress {
   .step-arrow {
     font-size: 0.85rem;
   }
+
+  .home-hero-dark {
+    padding: 3rem 2.5rem;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .top-nav button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.82rem;
+  }
 }
 
 /* ─── RESPONSIVE: mobile ─────────────────────────────────────── */
@@ -1328,15 +1342,66 @@ progress {
   }
 
   .home-hero-dark h1 {
-    font-size: clamp(2rem, 8vw, 2.8rem);
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
   }
 
   .home-hero-sub {
     font-size: 1rem;
   }
 
+  .hero-logo img {
+    max-width: 70%;
+    height: auto;
+  }
+
+  .top-nav {
+    gap: 0.15rem;
+    overflow-x: auto;
+  }
+
+  .top-nav button {
+    padding: 0.28rem 0.5rem;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .app-header {
+    padding-inline: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .template-section {
+    padding-inline: 0.25rem;
+  }
+
   .method-card-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+/* ─── RESPONSIVE: small mobile ──────────────────────────────── */
+
+@media (max-width: 480px) {
+  .home-hero-dark {
+    padding: 2rem 1.25rem;
+  }
+
+  .home-hero-dark h1 {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+  }
+
+  .template-card {
+    padding: 1.25rem;
+  }
+
+  .cta-hero-primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .schema-page,
+  .coverage-page {
+    padding: 1rem 1rem 2rem;
   }
 }
 
