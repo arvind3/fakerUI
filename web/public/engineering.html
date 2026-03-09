@@ -18,27 +18,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="FakerUI Engineering — architecture, tech stack, and how Python Faker runs natively in the browser via Pyodide." />
-    <title>FakerUI — Engineering</title>
+    <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
+    <meta name="description" content="Synthora Engineering — architecture, tech stack, and how Python Faker runs natively in the browser via Pyodide." />
+    <title>Synthora — Engineering</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg: #f8fafc; --ink: #0f172a; --muted: #64748b;
-        --brand: #00b899; --brand-dark: #009980; --brand-soft: #ccf5ee;
-        --surface: #ffffff; --line: #e2e8f0;
-        --header-bg: #0f172a; --code-bg: #1e293b; --code-fg: #e2f8f4;
+        --bg: #f8fafc; --ink: #1E2028; --muted: #6B6E7F;
+        --brand: #0A6E5C; --brand-dark: #064D40; --brand-soft: #d4f0ea;
+        --surface: #ffffff; --line: #E4E5EA;
+        --header-bg: #1E2028; --code-bg: #1e293b; --code-fg: #e2f8f4;
         --shadow-sm: 0 1px 3px rgba(15,23,42,0.08);
         --shadow-md: 0 4px 16px rgba(15,23,42,0.10);
         --radius: 14px; --radius-sm: 8px;
       }
       *, *::before, *::after { box-sizing: border-box; }
       html, body { margin: 0; min-height: 100%; }
-      body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+      body { font-family: "DM Sans", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
       a { color: inherit; text-decoration: none; }
       h1,h2,h3,h4,p { margin: 0; }
-      code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.9em; background: var(--brand-soft); color: #065043; padding: 0.1em 0.35em; border-radius: 4px; }
+      code { font-family: "JetBrains Mono", Consolas, monospace; font-size: 0.9em; background: var(--brand-soft); color: #064D40; padding: 0.1em 0.35em; border-radius: 4px; }
       pre { margin: 0; }
       pre code { background: none; color: var(--code-fg); padding: 0; font-size: 0.85rem; }
 
@@ -56,13 +58,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .mobile-menu a:hover { background: rgba(255,255,255,0.1); color: #fff; }
       .mobile-menu.open { display: flex; }
 
-      .hero { background: linear-gradient(135deg, #0f172a 0%, #1a2e3b 50%, #0a2018 100%); color: #fff; padding: 5rem 1.5rem 4rem; }
+      .hero { background: linear-gradient(135deg, #1E2028 0%, #1a2e3b 50%, #0a2018 100%); color: #fff; padding: 5rem 1.5rem 4rem; }
       .hero-inner { max-width: 860px; }
       .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(0,184,153,0.15); color: var(--brand); padding: 0.28rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1.25rem; border: 1px solid rgba(0,184,153,0.3); }
       .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem; }
       .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.72); max-width: 56ch; line-height: 1.65; margin-bottom: 2rem; }
       .hero-badges { display: flex; flex-wrap: wrap; gap: 0.65rem; }
-      .badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); padding: 0.28rem 0.7rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+      .badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); padding: 0.28rem 0.7rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600; font-family: "JetBrains Mono", monospace; }
 
       .page-body { max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem; display: grid; gap: 3rem; }
 
@@ -83,7 +85,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
       .tech-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 1rem; box-shadow: var(--shadow-sm); }
       .tech-card-name { font-weight: 700; font-size: 0.96rem; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.5rem; }
-      .tech-version { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; background: var(--brand-soft); color: #065043; padding: 0.12rem 0.38rem; border-radius: 4px; }
+      .tech-version { font-family: "JetBrains Mono", monospace; font-size: 0.78rem; background: var(--brand-soft); color: #064D40; padding: 0.12rem 0.38rem; border-radius: 4px; }
       .tech-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
 
       /* DESIGN DECISIONS */
@@ -95,7 +97,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       /* CODE BLOCK */
       .code-block { background: var(--code-bg); border-radius: var(--radius-sm); padding: 1.25rem 1.5rem; overflow-x: auto; }
       .code-block pre code { font-size: 0.84rem; line-height: 1.65; }
-      .code-comment { color: #64748b; }
+      .code-comment { color: #6B6E7F; }
       .code-cmd { color: #7dd3fc; }
       .code-string { color: #86efac; }
 
@@ -128,7 +130,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <nav class="site-nav">
       <div class="nav-inner">
-        <a class="nav-brand" href="./">FakerUI</a>
+        <a class="nav-brand" href="./">Synthora</a>
         <nav class="nav-links" aria-label="Site navigation">
           <a href="./perspectives/">Perspectives</a>
           <a href="./engineering.html" class="active">Engineering</a>
@@ -154,7 +156,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="hero-eyebrow">🔧 Engineering Perspective</div>
         <h1>Python Faker,<br/>Natively in the Browser</h1>
         <p class="hero-sub">
-          FakerUI runs the actual Python Faker library client-side via Pyodide WebAssembly —
+          Synthora runs the actual Python Faker library client-side via Pyodide WebAssembly —
           no backend, no proxy, no serialization round-trips. Build-time catalog introspection
           delivers truthful coverage metadata at zero runtime cost.
         </p>
@@ -176,7 +178,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="section-label">Architecture</div>
         <h2 class="section-title">How Data Flows</h2>
         <p class="section-body">
-          FakerUI is split into two phases: a build-time Python pipeline that produces a static
+          Synthora is split into two phases: a build-time Python pipeline that produces a static
           catalog, and a browser runtime that loads that catalog and executes Faker methods
           in a dedicated Web Worker.
         </p>
@@ -329,7 +331,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="code-block">
           <pre><code><span class="code-comment"># Clone and install Python deps</span>
 <span class="code-cmd">git clone https://github.com/arvind3/fakerUI.git</span>
-<span class="code-cmd">cd fakerUI</span>
+<span class="code-cmd">cd synthora</span>
 <span class="code-cmd">pip install -r catalog_build/requirements.txt</span>
 
 <span class="code-comment"># Build the method catalog (writes web/public/catalog.json)</span>
@@ -352,7 +354,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <footer class="site-footer">
-      <p>FakerUI — open-source fake data generator &bull;
+      <p>Synthora — open-source fake data generator &bull;
         <a href="./">Open App</a> &bull;
         <a href="https://github.com/arvind3/fakerUI" target="_blank" rel="noopener">GitHub</a> &bull;
         <a href="./perspectives/">All Perspectives</a>
