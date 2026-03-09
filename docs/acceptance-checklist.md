@@ -26,6 +26,11 @@ Use this checklist before tagging a release or announcing a public demo.
 
 ## 4) Core User Journeys
 
+- [ ] Home page hero displays dark Midnight background with white Synthora logo, Instrument Serif headline, sub-line, and single "Explore the Product →" CTA.
+- [ ] Header shows Synthora logo (min 34px height) without a runtime status badge.
+- [ ] All pages align to 1100px max-width grid with consistent 40px horizontal padding.
+- [ ] Template cards display with 32px (2rem) internal padding.
+- [ ] Templates page lists "Retail Industry" (capital I) section.
 - [ ] Catalog search returns expected providers/methods for common queries.
 - [ ] Try panel can generate output with locale, count, and seed.
 - [ ] Try panel can export JSON and CSV.

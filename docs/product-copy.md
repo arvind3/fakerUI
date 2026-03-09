@@ -4,29 +4,28 @@ Use this copy set for landing page sections, in-app messaging, and release notes
 
 ## Positioning
 
-Synthora is a browser-based Faker workspace for teams that need realistic test data quickly, without running backend services.
+Synthora is a browser-based synthetic data generation platform for teams that need realistic datasets instantly, without running backend services.
+
+**Positioning line:** "Think Postman, but for data."
 
 ## Hero
 
-### Heading
+### Heading (Display — Instrument Serif)
 
-Generate realistic test data in your browser.
+Synthetic Data for Everyone
 
-### Subheading
+### Sub-line
 
-Search a complete Faker catalog for the pinned version, generate sample outputs instantly, and export JSON or CSV.
+Generate realistic datasets instantly using powerful templates. No login. No coding. Just data.
 
 ### Primary CTA
 
-Start Generating
-
-### Secondary CTA
-
-Browse Catalog
+Explore the Product →
 
 ## Value Props
 
 - Complete catalog coverage for bundled providers
+- Industry-ready templates — pick one and customize
 - In-browser runtime powered by Pyodide
 - Download-ready output (JSON/CSV)
 - Works offline after first load
@@ -42,6 +41,12 @@ Set locale, count, and options, then preview generated values before exporting.
 ## Schema Builder Helper Copy
 
 Create table-like datasets by combining multiple Faker methods into named fields.
+
+## Templates Page Copy
+
+**Eyebrow:** Pre-built schemas
+**Heading:** Templates
+**Description:** Start with an industry-ready template and customize it in the dataset builder. Every template remains fully editable.
 
 ## Coverage Disclosure Copy
 

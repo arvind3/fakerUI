@@ -18,9 +18,10 @@ Current status: production-ready UI with full feature set.
 - Full-page viewport layout — Explore page fills the browser window, two panels scroll independently
 - Method cards replace the old table — Try button always visible on every card, no horizontal scroll
 - 3-step guided flow: "Search → Choose provider → Click Try" with live step indicator
-- New design system: DM Sans + Instrument Serif, emerald/slate color palette matching modern SaaS standards
-- Home page with rotating sample output, category quick-launch cards
-- Templates page with 5 pre-built schemas (User Profile, E-commerce Order, Employee Record, API Test Payload, Social Media User)
+- Synthora rebrand: DM Sans + Instrument Serif typography, emerald (#0A6E5C) + Signal Gold (#F0A500) palette
+- Dark Midnight hero landing page with large Synthora logo, Instrument Serif headline, and single CTA
+- Consistent 1100px max-width layout shell across all pages, 40px horizontal padding
+- Templates page with industry-ready schemas across 5 domains (Retail, Azure DevOps, ServiceNow, CRM, General)
 - Improved TryPanel with skeleton loader, copy button, and collapsible Python code snippet
 
 Core functionality is stable and covered by unit tests (Vitest) and E2E smoke tests (Playwright).

@@ -18,7 +18,7 @@ interface TemplateSection {
 const TEMPLATE_SECTIONS: TemplateSection[] = [
   {
     id: "retail-industry",
-    title: "Retail industry",
+    title: "Retail Industry",
     description: "Ready-to-use records for merchandising, inventory, promotions, and supply chain workflows.",
     templates: [
       {

@@ -1,18 +1,3 @@
-import { useEffect, useState } from "react";
-
-const ROTATING_SAMPLES = [
-  { label: "Name", value: "Alexandra Morrison" },
-  { label: "Email", value: "alex.morrison@example.com" },
-  { label: "Address", value: "742 Elm Street, Springfield, IL 62701" },
-  { label: "Company", value: "Innovatech Solutions LLC" },
-  { label: "Phone", value: "+1 (555) 867-5309" },
-  { label: "UUID", value: "a3f8c2d1-4b7e-4a9f-8c1d-2e5b6f7a8c9d" },
-  { label: "URL", value: "https://api.innovatech.example.com/v1" },
-  { label: "Date", value: "1990-03-15" },
-  { label: "Color", value: "#3A7BD5" },
-  { label: "Job", value: "Senior Software Engineer" },
-];
-
 const CATEGORIES = [
   {
     id: "person",
@@ -96,55 +81,42 @@ const CATEGORIES = [
   },
 ];
 
+const BASE_URL = import.meta.env.BASE_URL as string;
+
 interface HomePageProps {
   onNavigateToCatalog: (query: string) => void;
   onNavigateToSchema: () => void;
 }
 
 export function HomePage({ onNavigateToCatalog, onNavigateToSchema }: HomePageProps): JSX.Element {
-  const [sampleIndex, setSampleIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSampleIndex((current) => (current + 1) % ROTATING_SAMPLES.length);
-    }, 2800);
-    return () => clearInterval(interval);
-  }, []);
-
-  const sample = ROTATING_SAMPLES[sampleIndex];
-
   return (
     <div className="home-page">
-      <section className="home-hero panel">
-        <p className="eyebrow">No sign-up. No limits. Runs offline.</p>
-        <h1>Synthetic Data for Everyone</h1>
-        <p className="home-subtitle">
-          Every method from the Faker library, available through a clean UI. Generate realistic test data for
-          development, demos, and QA — right in your browser.
+      {/* ── Dark hero ── */}
+      <section className="home-hero-dark" aria-label="Hero">
+        <div className="hero-logo">
+          <img
+            src={`${BASE_URL}brand/synthora-logo-horizontal-white.svg`}
+            alt="Synthora"
+            height="40"
+          />
+        </div>
+
+        <h1>Synthetic Data<br />for Everyone</h1>
+
+        <p className="home-hero-sub">
+          Generate realistic datasets instantly using powerful templates.
+          <br />
+          No login. No coding. Just data.
         </p>
 
-        <div className="home-sample" aria-live="polite" aria-label="Example output rotating">
-          <span className="home-sample-label">{sample.label}</span>
-          <span className="home-sample-value">{sample.value}</span>
-        </div>
-
-        <div className="home-cta-row">
-          <button type="button" className="cta-primary" onClick={onNavigateToSchema}>
-            Build a dataset &rarr;
+        <div className="hero-cta-row">
+          <button type="button" className="cta-hero-primary" onClick={onNavigateToSchema}>
+            Explore the Product &rarr;
           </button>
-          <button type="button" className="cta-secondary" onClick={() => onNavigateToCatalog("")}>
-            Browse all methods
-          </button>
-        </div>
-
-        <div className="home-pills">
-          <span>&#10003; Runs fully in-browser</span>
-          <span>&#10003; No sign-up required</span>
-          <span>&#10003; Every Faker method</span>
-          <span>&#10003; Export CSV or JSON</span>
         </div>
       </section>
 
+      {/* ── Browse by category ── */}
       <section className="panel">
         <h2 className="home-section-title">Browse by category</h2>
         <p className="muted">Click any category to explore its methods and generate data.</p>

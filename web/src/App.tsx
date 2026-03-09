@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import type { ActiveFormatter, CatalogData, RuntimeManifest, SchemaField } from "./lib/types";
 import { loadCatalog, loadRuntimeManifest } from "./lib/catalog";
@@ -82,13 +82,6 @@ export default function App(): JSX.Element {
     }
   }, [catalog, runtimeState]);
 
-  const runtimeLabel = useMemo(() => {
-    if (runtimeState === "idle") return "Ready to generate";
-    if (runtimeState === "loading") return "Loading Python runtime\u2026";
-    if (runtimeState === "ready") return "Runtime ready";
-    return "Runtime error";
-  }, [runtimeState]);
-
   const handleNavigateToCatalog = useCallback((query: string) => {
     setCatalogInitialQuery(query);
     setCatalogKey((k) => k + 1);
@@ -139,13 +132,10 @@ export default function App(): JSX.Element {
             <img
               src={`${import.meta.env.BASE_URL}brand/synthora-logo-horizontal.svg`}
               alt="Synthora"
-              height="28"
+              height="34"
               style={{ display: "block" }}
             />
           </button>
-          <span className="header-badge" aria-live="polite">
-            {runtimeLabel}
-          </span>
         </div>
 
         <nav className="top-nav" aria-label="Primary">
