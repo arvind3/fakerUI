@@ -1,4 +1,4 @@
-const CACHE_NAME = "fakerui-cache-v1";
+const CACHE_NAME = "synthora-cache-v3";
 const SCOPE_URL = new URL(self.registration.scope);
 const SCOPE_PATH = SCOPE_URL.pathname.endsWith("/") ? SCOPE_URL.pathname : `${SCOPE_URL.pathname}/`;
 const CORE_ASSETS = [
