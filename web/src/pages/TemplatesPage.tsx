@@ -332,7 +332,7 @@ interface TemplatesPageProps {
 
 export function TemplatesPage({ onUseTemplate }: TemplatesPageProps): JSX.Element {
   return (
-    <section className="panel" aria-label="Templates">
+    <section className="panel templates-page" aria-label="Templates">
       <header>
         <p className="eyebrow">Pre-built schemas</p>
         <h2>Templates</h2>

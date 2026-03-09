@@ -891,6 +891,14 @@ label {
   font-size: 0.68rem;
 }
 
+/* ─── TEMPLATES PAGE ─────────────────────────────────────────── */
+
+.templates-page {
+  padding: 1.5rem var(--page-px) 2.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
 /* ─── TEMPLATE CARDS ─────────────────────────────────────────── */
 
 .template-sections {
