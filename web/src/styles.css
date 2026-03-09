@@ -899,6 +899,21 @@ label {
   gap: 1rem;
 }
 
+.templates-page > header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.templates-page > header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.templates-page > header p:not(.eyebrow) {
+  color: var(--muted);
+  max-width: 65ch;
+}
+
 /* ─── TEMPLATE CARDS ─────────────────────────────────────────── */
 
 .template-sections {
